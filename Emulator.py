@@ -2,6 +2,8 @@ import Display
 import pygame, sys
 from pygame.locals import *
 
+pygame.init()
+
 display = Display.Window()
 
 RAM = [0]*4096                  # RAM
