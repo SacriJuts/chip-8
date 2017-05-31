@@ -12,8 +12,8 @@ class Window :
         self.Height = scale * HeightPixels
         self.BackgroundColor = bcol
         self.Color = col
-        self.Pixels = [[0 for i in range(HeightPixels)] for j in range(WidthPixels)]
-        self.ShowedPixels = [[0 for i in range(HeightPixels)] for j in range(WidthPixels)]
+        self.Pixels = [[0]*HeightPixels]*WidthPixels
+        self.ShowedPixels = [[0]*HeightPixels]*WidthPixels
         self.Surface = pygame.display.set_mode((self.Width, self.Height))
 
     def show(self):
@@ -21,17 +21,16 @@ class Window :
             for j in range(HeightPixels):
                 if self.ShowedPixels[i][j]:
                     pygame.draw.rect(self.Surface, self.Color, (i*self.PixelScale, j*self.PixelScale, self.PixelScale, self.PixelScale))
+                else:
+                    pygame.draw.rect(self.Surface, (0, 0, 0), (i*self.PixelScale, j*self.PixelScale, self.PixelScale, self.PixelScale))
         pygame.display.update()
 
     def update(self):
         self.ShowedPixels = self.Pixels
 
-
-
-pygame.init()
-myWindow = Window()
-
-myWindow.show()
+    def clear(self):
+        self.Pixels = [[0]*HeightPixels]*WidthPixels
+        self.update()
 
 tab = []
 
@@ -44,16 +43,3 @@ for i in range(64):
             bweh.append(False)
     tab.append(bweh)
 
-myWindow.Pixels = tab
-
-myWindow.update()
-myWindow.show()
-
-progress = True
-
-while progress:
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            progress = False
-
-pygame.quit()
